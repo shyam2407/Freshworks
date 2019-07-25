@@ -1,0 +1,105 @@
+/*
+
+This is the first API I am designing for seond round of Freshworks.
+
+Features:
+This is a simple API which has a search option.
+The search function returns only the exact match ( I was not able to display multiple results due to lack of time)
+The details of the country is displayed.
+There is a go back option which redirects the page to the initial homepage and not the results page
+
+Also 
+The program doesnot iterate through the json object.
+
+I am new to the subject of API Calls and JSON objects, so given more time I might be able to implement all the given features.
+
+
+
+
+*/
+
+
+<html>
+<head>
+<title>Countries</title>
+  
+
+</head>
+<body>
+
+    <head><h1>COUNTRIES<h1>
+        <link rel="stylesheet" type="text/css" href="mystyle.css">
+    </head>
+  <script>
+
+  /*
+  this function accesses the json objects and retrieves each parameter
+  */
+  function next()   //This function is used to go to the Country Details after the search result 
+  
+
+  {
+    var name=document.getElementById("search").value; var options = document.getElementById("back");
+   
+    fetch('https://restcountries.eu/rest/v2/name/'+name+'').then(response => response.json()).then(data => {
+
+    document.getElementById("main").innerHTML="Country:"+data[1].name,
+    
+    document.getElementById("capital").innerHTML="Capital:"+data[1].capital,document.getElementById("region").innerHTML="Continent:"+data[1].region,document.getElementById("population").innerHTML="Population:"+data[1].population,
+    options.innerHTML = options.innerHTML + "<a href="+document.referrer+">Back</a>";
+    // Prints result from `response.json()` in getRequest
+  }
+).catch(error => console.error(error))
+  
+}
+
+
+function loadDetails()   // This function is used to return the exact match
+{
+  var name=document.getElementById("search").value; console.log(name);
+  fetch('https://restcountries.eu/rest/v2/name/'+name+'').then(response => response.json()).then(data => {
+    
+    document.getElementById("cname").innerHTML=data[1].name,
+    ans=data,
+    document.getElementById("flag-img").setAttribute('src',data[1].flag),
+    console.log(data) // Prints result from `response.json()` in getRequest
+}
+  ).catch(error => console.error(error))
+}
+</script>
+    <div id="main">
+   <div id="ccname"></div>
+   <div id="capital"></div>
+   <div id="demo" >
+  
+     <input id="search" type="text" placeholder="Search..">
+      <button type="button" onclick="loadDetails()">Search</button>
+</div>
+<div class="card">
+  <img id="flag-img" onclick="next()" style="width:25%">
+
+  <div id="cname">
+   
+    
+  </div>
+
+</div>
+</div>
+<div id="flagi">
+  </div>
+
+<div id="capital">
+  
+</div>
+<div id="region">
+  </div>
+
+<div id="population">
+  </div>
+
+<div id="back">
+</div>
+
+
+</body>
+</html>
